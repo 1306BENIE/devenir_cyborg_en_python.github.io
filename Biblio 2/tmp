@@ -1,0 +1,38 @@
+
+@app.get('/api/user/')
+def get_all_user():
+    try:
+        users = User.objects.all()
+        return [user.to_json() for user in users]
+    except Exception as e:
+        print("erreur", e)
+        return "Y'a eu une erreur"
+
+
+@app.put('/api/user/<id>')
+def update_user(id):
+    try:
+        user = User.objects.get(id=id)
+        user_info = request.get_json()
+        user.update(**user_info)
+        return jsonify(user.to_json())
+    except Exception as e:
+        print("erreur", e)
+        return "Y'a eu une erreur"
+
+
+@app.delete('/api/user/<id>')
+def delete_user(id):
+    try:
+        user = User.objects.get(id=id)
+        user.delete()
+        return jsonify(user.to_json())
+    except Exception as e:
+        print("erreur", e)
+        return "Y'a eu une erreur"
+
+
+if __name__ == "__main__":
+    app.run(debug=True)
+
+    # mot-de-passe atlas mongodb = 9CR86ZTDeHKNNZIV ;  user=mokonan99
